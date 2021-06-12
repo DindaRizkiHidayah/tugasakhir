@@ -40,11 +40,14 @@ class _DrawerNavEmailState extends State<DrawerNavEmail> {
                   MaterialPageRoute(builder: (context) => HomePenjualan())),
             ),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text("Log Out"),
-              onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => LoginPage())),
-            ),
+                leading: Icon(Icons.logout),
+                title: Text("Log Out"),
+                onTap: () {
+                  signOutWithEmail();
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                      
+                }),
           ],
         ),
       ),

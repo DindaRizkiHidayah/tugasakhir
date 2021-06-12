@@ -36,7 +36,7 @@ Future<String> signInWithGoogle() async {
     final User currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
     print('signInWithGoogle succeeded: $user');
-    return '$user';
+    return email;
   }
   return null;
 }
@@ -46,7 +46,7 @@ Future<void> signOutGoogle() async {
   print("Sign Out");
 }
 
-Future<User> signInWithEmail(
+Future<String> signInWithEmail(
     String userEmail, String userPassword) async {
   await Firebase.initializeApp();
   User user;
@@ -67,7 +67,7 @@ Future<User> signInWithEmail(
       print('Wrong password provided.');
     }
   }
-  return user;
+  return email;
 }
 
 Future<String> signOutWithEmail() async {

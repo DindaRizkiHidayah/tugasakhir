@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:tugasakhir/pages/EntryFormPen.dart';
 
 class PenjualanCard extends StatelessWidget {
   final String nama;
   final String kodebarang;
   final int jumlahjual;
+  final String user;
+  final String id;
   //// Pointer to Update Function
-  final Function onUpdate;
+  // final Function onUpdate;
   //// Pointer to Delete Function
   final Function onDelete;
 
-  PenjualanCard(this.nama, this.kodebarang,this.jumlahjual,
-      {this.onUpdate, this.onDelete});
+  PenjualanCard(this.nama, this.kodebarang,this.jumlahjual,this.user,this.id,
+      {this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +39,23 @@ class PenjualanCard extends StatelessWidget {
               ),
               // SizedBox(
               //   width: MediaQuery.of(context).size.width * 0.5,
-              //   child: Text(
-              //     "Kode Barang : " + kodebarang,
-              //     style: TextStyle(
-              //         color: Colors.black,
-              //         fontWeight: FontWeight.w600,
-              //         fontSize: 16),
-              //   ),
+                 Text(
+                  "Kode Barang : " + kodebarang,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16),
+                ),
               // ),
               Text(
                 'Jumlah Jual : $jumlahjual',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16),
+              ),
+              Text(
+                'user : ' + user,
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -66,10 +76,16 @@ class PenjualanCard extends StatelessWidget {
                       Icons.arrow_upward,
                       color: Colors.white,
                     )),
-                    onPressed: () {
-                      // if (onUpdate != null) onUpdate!();
-                      onUpdate();
-                    }),
+                    onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => EntryFormPen(
+                     this.nama,
+                     this.kodebarang,
+                     this.jumlahjual,
+                     this.id,
+                  ),
+                ),
+              ),),
               ),
               SizedBox(
                 height: 40,

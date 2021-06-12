@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tugasakhir/model/itemcard.dart';
+import 'package:tugasakhir/pages/login_page.dart';
 
 class EntryForm extends StatefulWidget {
-    final ItemCard itemCard;
+  final ItemCard itemCard;
   EntryForm(this.itemCard);
   @override
   EntryFormState createState() => EntryFormState();
@@ -11,6 +12,7 @@ class EntryForm extends StatefulWidget {
 
 //class controller
 class EntryFormState extends State<EntryForm> {
+
   final TextEditingController namaController = TextEditingController();
   final TextEditingController merkController = TextEditingController();
   final TextEditingController hargaController = TextEditingController();
@@ -164,7 +166,9 @@ class EntryFormState extends State<EntryForm> {
                             "harga": double.tryParse(hargaController.text),
                             "stock": int.tryParse(stockController.text),
                             "kode barang": kodebarangController.text,
-                            "expired": int.tryParse(expiredController.text)
+                            "expired": int.tryParse(expiredController.text),
+                            "user" : username,
+                            // "user" : username
                           });
                           Navigator.pop(context, _item);
                           clearInputText();

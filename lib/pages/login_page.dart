@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:tugasakhir/pages/drawenavEmail.dart';
 import 'package:tugasakhir/pages/drawernav.dart';
 import '../Model/sign_in.dart';
+String username;
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -64,6 +65,9 @@ class _LoginPageState extends State<LoginPage> {
               ).then(
                 (result) {
                   if (result != null) {
+                    setState(() {
+                      username = result.toString();
+                    });
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
@@ -85,6 +89,9 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         signInWithGoogle().then((result) {
           if (result != null) {
+             setState(() {
+                      username = result;
+                    });
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {

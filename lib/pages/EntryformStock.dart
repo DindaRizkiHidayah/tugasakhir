@@ -1,36 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tugasakhir/model/PenjualanCard.dart';
 import 'package:tugasakhir/model/itemcard.dart';
+import 'package:tugasakhir/model/sign_in.dart';
+import 'package:tugasakhir/pages/login_page.dart';
 
-import 'login_page.dart';
+class EntryFormStock extends StatefulWidget {
+  final String nama;
+  final String merk;
+  final double harga;
+  final int stock;
+  final String kodebarang;
+  final int expired;
+  final String id;
 
-class EntryFormPenjualan extends StatefulWidget {
-    final PenjualanCard penjualanCard;
-  EntryFormPenjualan(this.penjualanCard);
+  EntryFormStock(this.nama, this.merk, this.harga, this.stock, this.kodebarang,
+      this.expired, this.id,);
   @override
-  EntryFormPenjualanState createState() => EntryFormPenjualanState();
+  EntryFormState createState() => EntryFormState();
 }
 
 //class controller
-class EntryFormPenjualanState extends State<EntryFormPenjualan> {
+class EntryFormState extends State<EntryFormStock> {
   final TextEditingController namaController = TextEditingController();
+  final TextEditingController merkController = TextEditingController();
+  final TextEditingController hargaController = TextEditingController();
+  final TextEditingController stockController = TextEditingController();
   final TextEditingController kodebarangController = TextEditingController();
-  final TextEditingController jumlahjualController = TextEditingController();
-  CollectionReference _penjualan = FirebaseFirestore.instance.collection('penjualan');
+  final TextEditingController expiredController = TextEditingController();
+  CollectionReference _item = FirebaseFirestore.instance.collection('item');
 
   void clearInputText() {
     namaController.text = "";
+    merkController.text = "";
+    hargaController.text = "";
+    stockController.text = "";
     kodebarangController.text = "";
-    jumlahjualController.text = "";
+    expiredController.text = "";
   }
 
   @override
   Widget build(BuildContext context) {
 //rubah
+    namaController.text = widget.nama;
+    merkController.text = widget.merk;
+    hargaController.text = widget.harga.toString();
+    stockController.text = widget.stock.toString();
+    kodebarangController.text = widget.kodebarang;
+    expiredController.text = widget.expired.toString();
     return Scaffold(
         appBar: AppBar(
-          title: Text('Data Penjualan Frozen food'),
+          title: Text('Data Stock Frozen food'),
           leading: Icon(Icons.keyboard_arrow_left),
         ),
         body: Padding(
@@ -54,13 +73,14 @@ class EntryFormPenjualanState extends State<EntryFormPenjualan> {
                   },
                 ),
               ),
+// merk
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 child: TextField(
-                  controller: kodebarangController,
+                  controller: merkController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'kode Barang',
+                    labelText: 'Merk Barang',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -70,13 +90,65 @@ class EntryFormPenjualanState extends State<EntryFormPenjualan> {
                   },
                 ),
               ),
+//harga
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 child: TextField(
-                  controller: jumlahjualController,
+                  controller: hargaController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'Jumlah jual',
+                    labelText: 'Harga Barang',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+//
+                  },
+                ),
+              ),
+//stock
+              Padding(
+                padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                child: TextField(
+                  controller: stockController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Stock Barang',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+//
+                  },
+                ),
+              ),
+//kode barang
+              Padding(
+                padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                child: TextField(
+                  controller: kodebarangController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'Kode Barang',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+//
+                  },
+                ),
+              ),
+//expired
+              Padding(
+                padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                child: TextField(
+                  controller: expiredController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Expired Barang',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -102,13 +174,17 @@ class EntryFormPenjualanState extends State<EntryFormPenjualan> {
                         ),
                         onPressed: () async {
                           // TODO 1 ADD DATA HERE
-                          await _penjualan.add({
+                          String id = widget.id;
+                          await _item.doc(id).update({
                             "nama": namaController.text,
+                            "merk": merkController.text,
+                            "harga": double.tryParse(hargaController.text),
+                            "stock": int.tryParse(stockController.text),
                             "kode barang": kodebarangController.text,
-                            "jumlah jual": int.tryParse(jumlahjualController.text),
+                            "expired": int.tryParse(expiredController.text),
                             "user" : username,
                           });
-                          Navigator.pop(context, _penjualan);
+                          Navigator.pop(context, _item);
                           clearInputText();
                         },
                       ),

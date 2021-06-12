@@ -34,13 +34,15 @@ class HomePenjualanState extends State<HomePenjualan> {
                     children: snapshot.data.docs
                         .map((e) => PenjualanCard(
                               e.data()['nama'],
-                              e.data()['kodebarang'],
-                              e.data()['jumlahjual'],
-                              onUpdate: () {
-                                _penjualan
-                                    .doc(e.id)
-                                    .update({"jumlahjual": e.data()['jumlahjual'] + 1});
-                              },
+                              e.data()['kode barang'],
+                              e.data()['jumlah jual'],
+                              e.data()['user'],
+                              e.id,
+                              // onUpdate: () {
+                              //   _penjualan
+                              //       .doc(e.id)
+                              //       .update({"jumlahjual": e.data()['jumlahjual'] + 1});
+                              // },
                               onDelete: () {
                                 _penjualan.doc(e.id).delete();
                               },

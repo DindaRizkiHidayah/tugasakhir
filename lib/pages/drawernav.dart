@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tugasakhir/pages/homePenjualan.dart';
-import 'package:tugasakhir/pages/login_page.dart';
-
 import '../Model/sign_in.dart';
 import 'home.dart';
+import 'login_page.dart';
 
 class DrawerNav extends StatefulWidget {
   @override
@@ -55,8 +54,11 @@ class _DrawerNavState extends State<DrawerNav> {
             ListTile(
               leading: Icon(Icons.logout),
               title: Text("Log Out"),
-              onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => LoginPage())),
+              onTap: () {
+                signOutGoogle();
+                Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+              }
             ),
           ],
         ),

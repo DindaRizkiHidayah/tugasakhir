@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tugasakhir/model/PenjualanCard.dart';
-import 'package:tugasakhir/model/itemcard.dart';
 
 import 'login_page.dart';
 
-class EntryFormPenjualan extends StatefulWidget {
-    final PenjualanCard penjualanCard;
-  EntryFormPenjualan(this.penjualanCard);
+class EntryFormPen extends StatefulWidget {
+  final String nama;
+  final String kodebarang;
+  final int jumlahjual;
+  final String id;
+
+  EntryFormPen(this.nama, this.kodebarang,this.jumlahjual, this.id,);
   @override
-  EntryFormPenjualanState createState() => EntryFormPenjualanState();
+  EntryFormState createState() => EntryFormState();
 }
 
 //class controller
-class EntryFormPenjualanState extends State<EntryFormPenjualan> {
-  final TextEditingController namaController = TextEditingController();
+class EntryFormState extends State<EntryFormPen> {
+   final TextEditingController namaController = TextEditingController();
   final TextEditingController kodebarangController = TextEditingController();
   final TextEditingController jumlahjualController = TextEditingController();
   CollectionReference _penjualan = FirebaseFirestore.instance.collection('penjualan');
@@ -28,9 +30,12 @@ class EntryFormPenjualanState extends State<EntryFormPenjualan> {
   @override
   Widget build(BuildContext context) {
 //rubah
+    namaController.text = widget.nama;
+    kodebarangController.text = widget.kodebarang;
+    jumlahjualController.text = widget.jumlahjual.toString();
     return Scaffold(
         appBar: AppBar(
-          title: Text('Data Penjualan Frozen food'),
+          title: Text('Data Stock Frozen food'),
           leading: Icon(Icons.keyboard_arrow_left),
         ),
         body: Padding(
@@ -54,13 +59,14 @@ class EntryFormPenjualanState extends State<EntryFormPenjualan> {
                   },
                 ),
               ),
+// merk
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 child: TextField(
                   controller: kodebarangController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'kode Barang',
+                    labelText: 'Kode Barang',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -70,13 +76,14 @@ class EntryFormPenjualanState extends State<EntryFormPenjualan> {
                   },
                 ),
               ),
+//harga
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 child: TextField(
                   controller: jumlahjualController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'Jumlah jual',
+                    labelText: 'Jumlah Jual',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -102,7 +109,8 @@ class EntryFormPenjualanState extends State<EntryFormPenjualan> {
                         ),
                         onPressed: () async {
                           // TODO 1 ADD DATA HERE
-                          await _penjualan.add({
+                          String id = widget.id;
+                          await _penjualan.doc(id).update({
                             "nama": namaController.text,
                             "kode barang": kodebarangController.text,
                             "jumlah jual": int.tryParse(jumlahjualController.text),

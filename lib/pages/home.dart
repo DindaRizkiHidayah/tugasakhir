@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tugasakhir/model/itemcard.dart';
+import 'package:tugasakhir/model/sign_in.dart';
 import 'package:tugasakhir/pages/entryform.dart'; //pendukung program asinkron
 
 class Home extends StatefulWidget {
@@ -26,7 +27,7 @@ class HomeState extends State<Home> {
             ),
             child: ListView(children: [
               StreamBuilder<QuerySnapshot>(
-                stream: _item.orderBy('nama', descending: true).snapshots(),
+                stream: _item.snapshots(),
                 builder: (buildContext, snapshot) {
                   //  if(snapshot.data == null ) return CircularProgressIndicator();
                   return Column(
@@ -36,13 +37,15 @@ class HomeState extends State<Home> {
                               e.data()['merk'],
                               e.data()['harga'],
                               e.data()['stock'],
-                              e.data()['kodebarang'],
-                              (e.data()['expired']),
-                              onUpdate: () {
-                                _item
-                                    .doc(e.id)
-                                    .update({"stock": e.data()['stock'] + 1});
-                              },
+                              e.data()['kode barang'],
+                              e.data()['expired'],
+                              e.data()['user'],
+                              e.id,
+                              // onUpdate: () {
+                              //   _item
+                              //       .doc(e.id)
+                              //       .update({"stock": e.data()['stock'] + 1});
+                              // },
                               onDelete: () {
                                 _item.doc(e.id).delete();
                               },
